@@ -35,14 +35,14 @@ class User(BaseModel):
 db = SessionLocal()
 
 
-@app.get("/", response_model=List[User], status_code=200)
+@app.get("/getting/", response_model=List[User], status_code=200)
 def get_user():
     # return db
     user_list = db.query(models.User).all()
     return user_list
 
 
-@app.post("/creating", response_model=User, status_code=status.HTTP_201_CREATED)
+@app.post("/creating/", response_model=User, status_code=status.HTTP_201_CREATED)
 def post_user(user: User):
     db_user = db.query(models.User).filter(models.User.name == user.name).first()
     if db_user is not None:
