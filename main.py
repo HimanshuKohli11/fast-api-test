@@ -91,3 +91,6 @@ def deleting_user(uid: int):
     db.commit()
 
     return db_user
+
+
+app.run(host='0.0.0.0', port=port)
