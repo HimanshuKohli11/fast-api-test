@@ -93,4 +93,4 @@ def deleting_user(uid: int):
     return db_user
 
 
-app.run(host='0.0.0.0', port=port)
+# app.run(host='0.0.0.0', port=port)
