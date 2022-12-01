@@ -1,9 +1,9 @@
-from typing import List
-from uuid import uuid4, UUID
-from typing import Optional
+# from typing import List
+# from uuid import uuid4, UUID
+from typing import Optional, List
 from fastapi import FastAPI, status, HTTPException
-from pydantic import BaseModel
-import models
+# from pydantic import BaseModel
+# import models
 # from db_conn import SessionLocal
 import os
 
