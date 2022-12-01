@@ -85,6 +85,53 @@ class Login(BaseModel):
         orm_mode = True
 
 
+# Player
+class PlayerStats(BaseModel):
+    player_id: int
+    score: float
+    achievements: str
+
+    class Config:
+        orm_mode = True
+
+
+# class Image(BaseModel):
+#     player_id: PlayerStats.player_id
+#     url: str
+
+
+class PlayerProfile(BaseModel):
+    """
+    [summary]: Player profile information for Player page display at the app
+    """
+
+    player_name: str
+    player_category: int
+    # image: HttpUrl
+    # image: Union[Image, None] = None
+    # score: PlayerStats
+
+    class Config:
+        orm_mode = True
+
+
+class PlayerDetails(BaseModel):
+    player_name: str
+    player_category: int
+
+    class Config:
+        orm_mode = True
+
+
+class ShowPlayer(BaseModel):
+    player_name: str
+    # image: PlayerProfile.image
+    # score: PlayerProfile.score
+
+    class Config:
+        orm_mode = True
+
+
 class OTP(BaseModel):
     id: int
     otp: int
@@ -104,6 +151,17 @@ class GameDetails(BaseModel):
 class GameList(BaseModel):
     id: int
     date_of_play: datetime
+
+
+# Team
+class TeamDetails(BaseModel):
+    team_name: str
+    score: float
+    last_submitted_at: datetime
+    # players: List[ShowPlayer]
+
+    class Config:
+        orm_mode = True
 
 
 class TeamCreate(BaseModel):

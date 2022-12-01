@@ -57,8 +57,9 @@ def login_mobile(user_input: schemas.Mobile, db: Session = Depends(db_conn.get_d
                 status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid details"
             )
 
-    trigger_otp(user_input.id, db)
-    return {"msg": "OTP sent"}
+    generated_otp = trigger_otp(user_input.id, db)
+
+    return {"msg": "OTP sent", "OTP": str(generated_otp)}
 
 
 @router.get("/id_token/{user_id}")

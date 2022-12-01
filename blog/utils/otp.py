@@ -48,13 +48,15 @@ def trigger_otp(user_id: int, db: Session):
     save_otp(generated_otp, user_id, db)
     send_otp(generated_otp)
 
+    return generated_otp
+
 
 def send_otp(generated_otp: str):
     """
     [summary]: send OTP to user's mobile number 
     """
     # TODO: Implement contacting AWS for sending OTP
-    print(f'OTP {generate_otp} sent')
+    print(f'OTP {generated_otp} sent')
     pass
 
 
