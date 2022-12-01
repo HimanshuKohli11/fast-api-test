@@ -26,6 +26,15 @@ def create_user(request: schemas.UserCreate, db: Session = Depends(db_conn.get_d
     return new_user
 
 
+# @router.get('/{user_id}', response_model=schemas.ShowUser)
+# def get_user_by_id(user_id: int, db: Session = Depends(db_conn.get_db)):
+#     get_user = db.query(models.User).filter(models.User.id == user_id).first()
+#
+#     if not get_user:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User with id {0} is not available".format(user_id))
+#
+#     return get_user
+
 @router.get('/{user_id}', response_model=schemas.ShowUser)
 def get_user_by_id(user_id: int, db: Session = Depends(db_conn.get_db)):
     get_user = db.query(models.User).filter(models.User.id == user_id).first()

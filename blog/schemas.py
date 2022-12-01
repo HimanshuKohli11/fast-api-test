@@ -20,6 +20,15 @@ class UserCreate(BaseModel):
         orm_mode = True
 
 
+# class User(BaseModel):
+#     name: str
+#     email: str
+#     password: str
+#
+#     class Config:
+#         orm_mode = True
+
+
 class ShowUser(BaseModel):
     first_name: str
     email: str
@@ -53,3 +62,79 @@ class ProfileUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class TokenData(BaseModel):
+    """
+    [summary]: used while creating the token
+    """
+    id: Optional[str] = None
+
+
+class RefreshToken(BaseModel):
+    id: int
+    refresh_token: str
+
+
+# Login
+class Login(BaseModel):
+    username: str
+    password: str
+
+    class Config:
+        orm_mode = True
+
+
+class OTP(BaseModel):
+    id: int
+    otp: int
+
+
+class Mobile(BaseModel):
+    id: int
+    mobile: str
+
+
+class GameDetails(BaseModel):
+    id: int
+    date_of_play: str
+    last_updated: str
+
+
+class GameList(BaseModel):
+    id: int
+    date_of_play: datetime
+
+
+class TeamCreate(BaseModel):
+    team_name: str
+    player_id_1: int
+    player_id_2: int
+    player_id_3: int
+    player_id_4: int
+    player_id_5: int
+    player_id_6: int
+    player_id_7: int
+    player_id_8: int
+    player_id_9: int
+    player_id_10: int
+    player_id_11: int
+    player_id_12: int
+    player_id_13: int
+
+
+class TeamUpdate(BaseModel):
+    player_id_1: Union[int, None] = None
+    player_id_2: Union[int, None] = None
+    player_id_3: Union[int, None] = None
+    player_id_4: Union[int, None] = None
+    player_id_5: Union[int, None] = None
+    player_id_6: Union[int, None] = None
+    player_id_7: Union[int, None] = None
+    player_id_8: Union[int, None] = None
+    player_id_9: Union[int, None] = None
+    player_id_10: Union[int, None] = None
+    player_id_11: Union[int, None] = None
+    player_id_12: Union[int, None] = None
+    player_id_13: Union[int, None] = None
+
