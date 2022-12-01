@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, status, Response, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 from .. import schemas, models, db_conn
 
 
@@ -10,11 +11,18 @@ router = APIRouter(
 
 
 @router.post('/', response_model=schemas.ShowUser)
-def create_user(request: schemas.User, db: Session = Depends(db_conn.get_db)):
-    new_user = models.User(name=request.name, email=request.email, password=request.password)
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
+def create_user(request: schemas.UserCreate, db: Session = Depends(db_conn.get_db)):
+    new_user = models.User(**request.dict())
+    try:
+        db.add(new_user)
+        # profile.create_default_profile(new_user.id, db)
+        db.commit()
+        db.refresh(new_user)
+
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f'User account {request.username} already exits')
+
     return new_user
 
 
