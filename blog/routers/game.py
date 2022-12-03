@@ -22,7 +22,7 @@ def get_all_game_details(db: Session = Depends(db_conn.get_db)):
 
     if not game_details:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Game list not found")
-
+    print("displaying game details!")
     return game_details
 
 
