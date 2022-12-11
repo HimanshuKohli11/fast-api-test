@@ -7,7 +7,8 @@ from sqlalchemy.orm import sessionmaker
 
 # engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 
-SQLALCHEMY_DATABASE_URL = 'postgres://postgresql_pgadmin_moat_user:CCfVVcSRpMgusmMXUUgmG9s8JSHoffve@dpg-ceapfoha6gdichj3d6q0-a/postgresql_pgadmin_moat'
+# SQLALCHEMY_DATABASE_URL = 'postgres://postgresql_pgadmin_moat_user:CCfVVcSRpMgusmMXUUgmG9s8JSHoffve@dpg-ceapfoha6gdichj3d6q0-a/postgresql_pgadmin_moat'
+SQLALCHEMY_DATABASE_URL = 'postgresql://postgresql_pgadmin_moat_user:CCfVVcSRpMgusmMXUUgmG9s8JSHoffve@dpg-ceapfoha6gdichj3d6q0-a/postgresql_pgadmin_moat'
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
