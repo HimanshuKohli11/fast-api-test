@@ -37,23 +37,28 @@ def get_profile(user_id: int, db: Session = Depends(db_conn.get_db)):
 
 
 def create_default_profile(user_id, db: Session):
-    default_profile = get_default_profile()
-    default_profile['user_id'] = user_id
+    default_profile = get_default_profile(user_id)
+    # default_profile['user_id'] = user_id
 
     new_profile = models.Profile(**default_profile)
     try:
         db.add(new_profile)
+        db.commit()
+        db.refresh(new_profile)
 
     except IntegrityError:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f'User profile for {user_id} already exits')
+        # raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f'User profile for {user_id} already exits')
+        return False, None
 
+    return True, new_profile
 
-def get_default_profile():
+def get_default_profile(user_id):
     """
     [summary]: Method to provide default profile information
     """
     profile = {}
     try:
+        profile['user_id'] = user_id
         profile['team_name'] = 'Dream Team ' + str(random.randint(10, 100))
         profile['address'] = 'Somewhere in India'
         print("Default profile successfully created!")

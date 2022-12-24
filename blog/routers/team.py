@@ -28,14 +28,16 @@ def get_team(team_id: int, db: Session = Depends(db_conn.get_db)):
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=schemas.TeamDetails)
-def create_team(user_id: int, team: schemas.TeamCreate, db: Session = Depends(db_conn.get_db)):
+def create_team(user_id: int, team: schemas.Team, db: Session = Depends(db_conn.get_db)):
     """
     [summary]:
     """
     user_profile = db.query(models.Profile).filter(models.Profile.user_id == user_id).first()
     team.team_name = user_profile.team_name
+    team.user_id = user_profile.user_id
 
     new_team = models.Teams(**team.dict())
+
     try:
         db.add(new_team)
         db.commit()

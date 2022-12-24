@@ -23,6 +23,7 @@ class User(Base):
     email = Column(String, nullable=False, unique=True)
     mobile = Column(String, unique=True, nullable=False)
     # joined_at = Column(TIMESTAMP(timezone=True), nullable=True, server_default=text('now()'))
+    enable_status = Column(Integer, nullable=False, default=0)
     joined_at = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
     # Date of birth
 
@@ -128,6 +129,7 @@ class Teams(Base):
 
     id = Column(Integer, primary_key=True, nullable=False)
     team_name = Column(String, nullable=False)  # TODO: doubt [only one team name per customer??]
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     # team_name = Column(String, ForeignKey("profiles.team_name"), nullable=False, index=True)
     player_id_1 = Column(Integer, ForeignKey("players.id", ondelete="CASCADE"), nullable=False, index=True)
     player_id_2 = Column(Integer, ForeignKey("players.id", ondelete="CASCADE"), nullable=False, index=True)
@@ -147,4 +149,106 @@ class Teams(Base):
     score = Column(Float, nullable=False, default=0)
     # prize_amount = Column(Integer, ForeignKey("prize.prize_amount", ondelete="CASCADE"), nullable=False, index=True)
     rank = Column(Integer, nullable=False, default=-1)
+    last_updated = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+
+
+class Prizes(Base):
+    """
+        [summary]: Table structure for Prizes class
+        """
+    __tablename__ = 'prizes'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    game_id = Column(Integer, ForeignKey("games.id", ondelete="CASCADE"), nullable=False, index=True)
+    description = Column(String, nullable=False)
+    image = Column(URLType)
+    valid_till = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+    last_updated = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+
+
+class Results(Base):
+    """
+            [summary]: Table structure for Daily Live Results class
+            """
+    __tablename__ = 'results'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    game_id = Column(Integer, ForeignKey("games.id", ondelete="CASCADE"), nullable=False, index=True)
+    team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False, index=True)
+    score = Column(Float, nullable=False, default=0)
+    rank = Column(Integer, nullable=False, default=-1)
+
+    last_updated = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+
+
+class ResultsDailyLive(Base):
+    """
+    [summary]: Table structure for Daily Live Results class
+    """
+    __tablename__ = 'results_daily_live'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    game_id = Column(Integer, ForeignKey("games.id", ondelete="CASCADE"), nullable=False, index=True)
+    player_id = Column(Integer, ForeignKey("players.id", ondelete="CASCADE"), nullable=False, index=True)
+    start_score = Column(Integer, nullable=False, default=0)
+    latest_score = Column(Float, nullable=False, default=0)
+    moat_score = Column(Float, nullable=False, default=0)
+
+    last_updated = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+
+
+class TransactionTypes(Base):
+    """
+    [summary]: Table structure for Transaction type
+    """
+    __tablename__ = 'transaction_type'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    type = Column(String, nullable=False)
+
+    last_updated = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+
+
+class DailyTransactions(Base):
+    """
+    [summary]: Table structure for Transaction type
+    """
+    __tablename__ = 'daily_transactions'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    transaction_id = Column(Integer, primary_key=True, nullable=False)
+    # transaction_id = Column(String, name="uuid", primary_key=True, nullable=False, default=generate_uuid)
+    transaction_type = Column(Integer, ForeignKey("transaction_type.id", ondelete="CASCADE"), nullable=False)
+    value = Column(Float, nullable=False, default=0)
+    timestamp = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+
+    last_updated = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+
+
+class Wallet(Base):
+    """
+    [summary]: Table structure for Transaction type
+    """
+    __tablename__ = 'wallet'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    net_value = Column(Float, nullable=False, default=0)
+
+    last_updated = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+
+
+class WalletTransactions(Base):
+    """
+    [summary]: Table structure for Transaction type
+    """
+    __tablename__ = 'wallet_transactions'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    wallet_id = Column(Integer, ForeignKey("wallet.id", ondelete="CASCADE"), nullable=False)
+    transaction_type = Column(Integer, ForeignKey("transaction_type.id", ondelete="CASCADE"), nullable=False)
+    transaction_time = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
+    status = Column(String, nullable=False)
+
     last_updated = Column(TIMESTAMP(timezone=True), nullable=True, server_default=func.now())
